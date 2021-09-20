@@ -26,9 +26,7 @@ function App() {
   }, [searchValue]);
 
   useEffect(() => {
-    const movieFavorites = JSON.parse(
-      localStorage.getItem("react-movie-app-favorites")
-    );
+    const movieFavorites = getDataFromLocalStorage();
     if (movieFavorites) {
       setFavorites(movieFavorites);
     } else {
@@ -36,14 +34,23 @@ function App() {
     }
   }, []);
 
+  function getDataFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("react-movie-app-favorites"));
+  }
+
   function saveToLocalStorage(items) {
     localStorage.setItem("react-movie-app-favorites", JSON.stringify(items));
   }
 
   function addFavoriteMovie(movie) {
-    const newFavoriteList = [...favorites, movie];
-    setFavorites(newFavoriteList);
-    saveToLocalStorage(newFavoriteList);
+    const favoritesInLocal = getDataFromLocalStorage();
+    if (
+      favoritesInLocal.every((favorite) => favorite.imdbID !== movie.imdbID)
+    ) {
+      const newFavoriteList = [...favorites, movie];
+      setFavorites(newFavoriteList);
+      saveToLocalStorage(newFavoriteList);
+    }
   }
 
   function removeFavoriteMovie(movie) {

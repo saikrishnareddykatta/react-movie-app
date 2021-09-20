@@ -1,10 +1,6 @@
 function SearchBox(props) {
   function changeHandler(value) {
-    let timer;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      props.setSearchValue(value);
-    }, 400);
+    props.setSearchValue(value);
   }
   return (
     <div className="col col-sm-3">
