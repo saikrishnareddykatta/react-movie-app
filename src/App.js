@@ -30,9 +30,19 @@ function App() {
   }
 
   function addFavoriteMovie(movie) {
-    const newFavouriteList = [...favorites, movie];
-    setFavorites(newFavouriteList);
-    saveToLocalStorage(newFavouriteList);
+    const movieList = getDataFromLocalStorage();
+    if (!movieList) {
+      const newFavouriteList = [...favorites, movie];
+      setFavorites(newFavouriteList);
+      saveToLocalStorage(newFavouriteList);
+      return;
+    }
+    if (movieList.every((movieData) => movieData.imdbID !== movie.imdbID)) {
+      const newFavouriteList = [...favorites, movie];
+      setFavorites(newFavouriteList);
+      saveToLocalStorage(newFavouriteList);
+    }
+    return;
   }
 
   function removeFavoriteMovie(movie) {
@@ -58,6 +68,7 @@ function App() {
 
   return (
     <div className="container-fluid movie-app">
+      <h1 className="d-flex justify-content-center">Welcome to Movie Vault</h1>
       <div className="item d-flex align-items-center mt-4 mb-4">
         <MovieListHeading heading="Movies" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
