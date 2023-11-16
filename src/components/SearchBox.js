@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 function SearchBox(props) {
   //   function changeHandler(value) {
   //     props.setSearchValue(value);
