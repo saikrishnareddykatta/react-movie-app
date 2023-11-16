@@ -21,6 +21,28 @@ function App() {
     }
   };
 
+  function getDataFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("react-movie-app-favorites"));
+  }
+
+  function saveToLocalStorage(items) {
+    localStorage.setItem("react-movie-app-favorites", JSON.stringify(items));
+  }
+
+  function addFavoriteMovie(movie) {
+    const newFavouriteList = [...favorites, movie];
+    setFavorites(newFavouriteList);
+    saveToLocalStorage(newFavouriteList);
+  }
+
+  function removeFavoriteMovie(movie) {
+    const newFavoriteList = favorites.filter(
+      (favorite) => favorite.imdbID !== movie.imdbID
+    );
+    setFavorites(newFavoriteList);
+    saveToLocalStorage(newFavoriteList);
+  }
+
   useEffect(() => {
     getMovierequest(searchValue);
   }, [searchValue]);
@@ -34,50 +56,23 @@ function App() {
     }
   }, []);
 
-  function getDataFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("react-movie-app-favorites"));
-  }
-
-  function saveToLocalStorage(items) {
-    localStorage.setItem("react-movie-app-favorites", JSON.stringify(items));
-  }
-
-  function addFavoriteMovie(movie) {
-    const favoritesInLocal = getDataFromLocalStorage();
-    if (
-      favoritesInLocal.every((favorite) => favorite.imdbID !== movie.imdbID)
-    ) {
-      const newFavoriteList = [...favorites, movie];
-      setFavorites(newFavoriteList);
-      saveToLocalStorage(newFavoriteList);
-    }
-  }
-
-  function removeFavoriteMovie(movie) {
-    const newFavoriteList = favorites.filter(
-      (favorite) => favorite.imdbID !== movie.imdbID
-    );
-    setFavorites(newFavoriteList);
-    saveToLocalStorage(newFavoriteList);
-  }
-
   return (
     <div className="container-fluid movie-app">
-      <div className="row d-flex align-items-center mt-4 mb-4">
+      <div className="item d-flex align-items-center mt-4 mb-4">
         <MovieListHeading heading="Movies" />
         <SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
       </div>
-      <div className="row">
+      <div className="item">
         <MovieList
           movies={movies}
           handleFavoritesClick={addFavoriteMovie}
           favoriteComponent={AddFavorites}
         />
       </div>
-      <div className="row d-flex align-items-center mt-4 mb-4">
+      <div className="item d-flex align-items-center mt-4 mb-4">
         <MovieListHeading heading="Favorites" />
       </div>
-      <div className="row">
+      <div className="item">
         <MovieList
           movies={favorites}
           handleFavoritesClick={removeFavoriteMovie}

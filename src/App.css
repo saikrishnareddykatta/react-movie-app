@@ -3,8 +3,16 @@ body {
   color: #ffffff;
 }
 
-.movie-app > .row {
+.row {
   display: flex;
   overflow-x: auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.item {
+  display: flex;
+  overflow-x: auto;
+  flex-direction: row;
   flex-wrap: nowrap;
 }
